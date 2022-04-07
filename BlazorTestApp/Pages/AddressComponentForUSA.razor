@@ -1,0 +1,111 @@
+﻿@using BlazorTestApp.Core.Services;
+
+@page "/addresscomponent"
+@inject IAddressService AddressService
+
+<PageTitle>Address component for USA</PageTitle>
+
+<h1>Address component for USA</h1>
+
+<p>This component demonstrates fetching data from http://ipinfo.io/</p>
+
+<style>
+.row {
+  margin-bottom: 10px !important;
+}
+</style>
+
+@if (userAddress == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+   <EditForm Model="@userAddress">
+    <h3>Edit Address</h3>
+    <hr />
+    <div class="form-group row">
+        <label for="Country" class="col-sm-2 col-form-label">
+            Country
+        </label>
+        <div class="col-sm-10">
+            <InputText id="Country" class="form-control" placeholder="First Name"
+                       @bind-Value="userAddress.Country" />
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group row">
+        <label for="City" class="col-sm-2 col-form-label">
+            City
+        </label>
+        <div class="col-sm-10">
+            <InputText id="City" class="form-control" placeholder="Last Name"
+                       @bind-Value="userAddress.City" />
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group row">
+        <label for="State" class="col-sm-2 col-form-label">
+            State
+        </label>
+        <div class="col-sm-10">
+            <InputText id="State" class="form-control" placeholder="Email"
+                       @bind-Value="userAddress.State" />
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group row">
+        <label for="Street" class="col-sm-2 col-form-label">
+            Street
+        </label>
+        <div class="col-sm-10">
+            <InputText id="Street" class="form-control" placeholder="Last Name"
+                       @bind-Value="userAddress.Street" />
+        </div>
+        <p></p>
+    </div>
+    <div class="form-group row">
+        <label for="ZipCode" class="col-sm-2 col-form-label">
+            Zip Code
+        </label>
+        <div class="col-sm-10">
+            <InputText id="ZipCode" class="form-control" placeholder="Last Name"
+                       @bind-Value="userAddress.ZipCode" />
+        </div>
+        <p></p>
+    </div>
+</EditForm>
+}
+
+@code {
+    private UserAddress? userAddress;
+
+    protected override async Task OnInitializedAsync()
+    {
+        userAddress = new UserAddress();
+
+        var ipData = await AddressService.FetchCurrentAddressAsync();
+        if (ipData != null)
+        {
+            userAddress.City = ipData.City;
+            userAddress.Country = ipData.Country;
+            userAddress.State = ipData.Region;
+            userAddress.ZipCode = ipData.Postal;
+        }
+    }
+
+    public class UserAddress
+    {
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        public string Country { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string Street { get; set; }
+
+    }
+}
