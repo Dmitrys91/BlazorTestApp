@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace BlazorTestApp.Tests.Unit;
+namespace BlazorTestApp.Tests.Unit.Helpers;
 
 public static class MockHttpClientBunitHelpers
 {
