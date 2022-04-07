@@ -9,7 +9,7 @@
 
 <h1>Address component for USA</h1>
 
-<p>This component demonstrates fetching data from <a href="http://ipinfo.io/">ipinfo.io</a></p>
+<p>This component demonstrates fetching data from <a href="@IpDataUrl">ipinfo.io</a></p>
 
 <style>
 
@@ -77,14 +77,13 @@ else
 
 @code {
     private UserAddress? userAddress;
+ 
+    public static string IpDataUrl = "https://ipinfo.io"; // you can use mock data: "/sample-data/address.json"
 
     protected override async Task OnInitializedAsync()
     {
         userAddress = new UserAddress();
-
-        // mock data in "/sample-data/address.json"
-
-        var ipData = await HttpClient.GetFromJsonAsync<IpAddressData>("https://ipinfo.io"); 
+        var ipData = await HttpClient.GetFromJsonAsync<IpAddressData>(IpDataUrl); 
         if (ipData != null && ipData.Country == "US")
         {
             userAddress.City = ipData.City;

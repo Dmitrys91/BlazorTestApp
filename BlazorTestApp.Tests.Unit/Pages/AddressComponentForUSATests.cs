@@ -1,6 +1,6 @@
 using BlazorTestApp.Models.Address;
+using BlazorTestApp.Pages;
 using BlazorTestApp.Tests.Unit.Helpers;
-using BlazorTestApp.UI.Pages;
 using Bunit;
 using FluentAssertions;
 using NUnit.Framework;
@@ -11,7 +11,7 @@ namespace BlazorTestApp.Tests.Unit.Pages
     public class AddressComponentForUSATests
     {
         [Test]
-        public void Show_US_Address_Correct()
+        public void FillDataWhenAddressIsUSA()
         {
             var addressResponse = new IpAddressData
             {
@@ -25,7 +25,7 @@ namespace BlazorTestApp.Tests.Unit.Pages
             var mockedHttpClient = ctx.Services.AddMockHttpClient();
 
             mockedHttpClient
-                .When("https://ipinfo.io")
+                .When(AddressComponentForUSA.IpDataUrl)
                 .RespondJson(addressResponse);
 
             var component = ctx.RenderComponent<AddressComponentForUSA>();
@@ -39,7 +39,7 @@ namespace BlazorTestApp.Tests.Unit.Pages
         }
 
         [Test]
-        public void Show_Empty_Address_When_NotFound_Or_Not_USA()
+        public void EmptyAddressWhenAddresNotFoundOrNotUSA()
         {
             var addressResponse = new IpAddressData
             {
@@ -53,7 +53,7 @@ namespace BlazorTestApp.Tests.Unit.Pages
             var mockedHttpClient = ctx.Services.AddMockHttpClient();
 
             mockedHttpClient
-                .When("https://ipinfo.io")
+                .When(AddressComponentForUSA.IpDataUrl)
                 .RespondJson(addressResponse);
 
             var component = ctx.RenderComponent<AddressComponentForUSA>();
