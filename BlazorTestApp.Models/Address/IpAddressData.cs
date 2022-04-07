@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BlazorTestApp.Model.Address
+﻿namespace BlazorTestApp.Models.Address
 {
-
     public class IpAddressData
     {
         public string Ip { get; set; }

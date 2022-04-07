@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlazorTestApp\BlazorTestApp.csproj" />
+    <ProjectReference Include="..\BlazorTestApp.Models\BlazorTestApp.Models.csproj" />
+    <ProjectReference Include="..\BlazorTestApp.UI\BlazorTestApp.UI.csproj" />
   </ItemGroup>
 
 </Project>

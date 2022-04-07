@@ -1,40 +1,32 @@
-using AngleSharp.Html.Dom;
-using BlazorTestApp.Core.Services;
-using BlazorTestApp.Model.Address;
-using BlazorTestApp.Pages;
+using BlazorTestApp.Models.Address;
+using BlazorTestApp.Tests.Unit;
+using BlazorTestApp.UI.Pages;
 using Bunit;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
-
+using RichardSzalay.MockHttp;
 
 namespace BlazorApp.WebAssembly.Tests
 {
     public class AddressComponentForUSATest
     {
-
         [Test]
         public void FetchResultTest()
         {
             var addressResponse = new IpAddressData
             {
                 City = "New York",
-                Country = "USA",
+                Country = "US",
                 Postal = "1012"
             };
 
             using var ctx = new Bunit.TestContext();
 
-            var addressServiceMock = new Mock<IAddressService>();
+            var mockedHttpClient = ctx.Services.AddMockHttpClient();
 
-            addressServiceMock
-                .Setup(x => x.FetchCurrentAddressAsync())
-                .ReturnsAsync(addressResponse);
-
-            ctx.Services.AddScoped(x => addressServiceMock.Object);
+            mockedHttpClient
+                .When("https://ipinfo.io")
+                .RespondJson(addressResponse);
 
             var component = ctx.RenderComponent<AddressComponentForUSA>();
 

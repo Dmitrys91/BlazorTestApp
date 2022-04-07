@@ -1,18 +1,18 @@
-﻿@using BlazorTestApp.Core.Services;
+﻿@using Microsoft.AspNetCore.Http;
+@using BlazorTestApp.Models.Address;
 
-@page "/addresscomponent"
-@inject IAddressService AddressService
+@page "/"
+
+@inject HttpClient HttpClient
 
 <PageTitle>Address component for USA</PageTitle>
 
 <h1>Address component for USA</h1>
 
-<p>This component demonstrates fetching data from http://ipinfo.io/</p>
+<p>This component demonstrates fetching data from <a href="http://ipinfo.io/">ipinfo.io</a></p>
 
 <style>
-.row {
-  margin-bottom: 10px !important;
-}
+
 </style>
 
 @if (userAddress == null)
@@ -21,7 +21,6 @@
 }
 else
 {
-   <EditForm Model="@userAddress">
     <h3>Edit Address</h3>
     <hr />
     <div class="form-group row">
@@ -29,8 +28,8 @@ else
             Country
         </label>
         <div class="col-sm-10">
-            <InputText id="Country" class="form-control" placeholder="First Name"
-                       @bind-Value="userAddress.Country" />
+            <input type="text" id="Country" class="form-control" placeholder="First Name"
+                       value="@userAddress.Country" />
         </div>
         <p></p>
     </div>
@@ -39,8 +38,8 @@ else
             City
         </label>
         <div class="col-sm-10">
-            <InputText id="City" class="form-control" placeholder="Last Name"
-                       @bind-Value="userAddress.City" />
+            <input type="text" id="City" class="form-control" placeholder="Last Name"
+                       value="@userAddress.City" />
         </div>
         <p></p>
     </div>
@@ -49,8 +48,8 @@ else
             State
         </label>
         <div class="col-sm-10">
-            <InputText id="State" class="form-control" placeholder="Email"
-                       @bind-Value="userAddress.State" />
+            <input type="text" id="State" class="form-control" placeholder="Email"
+                       value="@userAddress.State" />
         </div>
         <p></p>
     </div>
@@ -59,8 +58,8 @@ else
             Street
         </label>
         <div class="col-sm-10">
-            <InputText id="Street" class="form-control" placeholder="Last Name"
-                       @bind-Value="userAddress.Street" />
+            <input type="text" id="Street" class="form-control" placeholder="Last Name"
+                       value="@userAddress.Street" />
         </div>
         <p></p>
     </div>
@@ -69,12 +68,11 @@ else
             Zip Code
         </label>
         <div class="col-sm-10">
-            <InputText id="ZipCode" class="form-control" placeholder="Last Name"
-                       @bind-Value="userAddress.ZipCode" />
+            <input type="text" id="ZipCode" class="form-control" placeholder="Last Name"
+                       value="@userAddress.ZipCode" />
         </div>
         <p></p>
     </div>
-</EditForm>
 }
 
 @code {
@@ -84,8 +82,10 @@ else
     {
         userAddress = new UserAddress();
 
-        var ipData = await AddressService.FetchCurrentAddressAsync();
-        if (ipData != null)
+        // mock data in "/sample-data/address.json"
+
+        var ipData = await HttpClient.GetFromJsonAsync<IpAddressData>("https://ipinfo.io"); 
+        if (ipData != null && ipData.Country == "US")
         {
             userAddress.City = ipData.City;
             userAddress.Country = ipData.Country;
@@ -96,7 +96,6 @@ else
 
     public class UserAddress
     {
-
         public string City { get; set; }
 
         public string State { get; set; }
@@ -106,6 +105,5 @@ else
         public string ZipCode { get; set; }
 
         public string Street { get; set; }
-
     }
 }
