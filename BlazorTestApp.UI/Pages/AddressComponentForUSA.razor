@@ -20,7 +20,8 @@
     <p><em>Loading...</em></p>
 }
 else
-{
+{    // We do not use EditForm because this component can be usable outside of the form
+
     <h3>Edit Address</h3>
     <hr />
     <div class="form-group row">
@@ -28,7 +29,7 @@ else
             Country
         </label>
         <div class="col-sm-10">
-            <input type="text" id="Country" class="form-control" placeholder="First Name"
+            <input type="text" id="Country" name="Country" class="form-control" placeholder="First Name"
                        value="@userAddress.Country" />
         </div>
         <p></p>
@@ -38,7 +39,7 @@ else
             City
         </label>
         <div class="col-sm-10">
-            <input type="text" id="City" class="form-control" placeholder="Last Name"
+            <input type="text" id="City"  name="City" class="form-control" placeholder="Last Name"
                        value="@userAddress.City" />
         </div>
         <p></p>
@@ -48,7 +49,7 @@ else
             State
         </label>
         <div class="col-sm-10">
-            <input type="text" id="State" class="form-control" placeholder="Email"
+            <input type="text" id="State" name="State" class="form-control" placeholder="Email"
                        value="@userAddress.State" />
         </div>
         <p></p>
@@ -58,7 +59,7 @@ else
             Street
         </label>
         <div class="col-sm-10">
-            <input type="text" id="Street" class="form-control" placeholder="Last Name"
+            <input type="text" id="Street" name="Street" class="form-control" placeholder="Last Name"
                        value="@userAddress.Street" />
         </div>
         <p></p>
@@ -68,7 +69,7 @@ else
             Zip Code
         </label>
         <div class="col-sm-10">
-            <input type="text" id="ZipCode" class="form-control" placeholder="Last Name"
+            <input type="text" id="ZipCode" name="ZipCode" class="form-control" placeholder="Last Name"
                        value="@userAddress.ZipCode" />
         </div>
         <p></p>
